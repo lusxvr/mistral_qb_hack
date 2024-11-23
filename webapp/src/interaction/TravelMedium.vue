@@ -9,14 +9,21 @@ import {
     SelectValue,
 } from '@/components/ui/select'
 import { Car, Bus, Train, Plane, Split } from 'lucide-vue-next'
+import { useUserInfoStore } from '@/pinia/userInfo'
+
+const store = useUserInfoStore()
+
+const handleSelect = (value) => {
+    store.setTravelMedium(value)
+}
 </script>
 
 <template>
     <div class="flex flex-col items-start space-y-2">
         <div class="text-xs font-bold">Select a Travel Medium</div>
-        <Select>
+        <Select @update:model-value="handleSelect">
             <SelectTrigger class="w-[180px]">
-                <SelectValue placeholder="Travel Medium" />
+                <SelectValue :placeholder="store.filter.travelMedium || 'Travel Medium'" />
             </SelectTrigger>
             <SelectContent>
                 <SelectItem value="car">
