@@ -17,7 +17,7 @@ const isWaitingForResponse = computed(() => {
 })
 
 const handleSubmit = async () => {
-  if (inputValue.value.trim()) {
+  if (inputValue.value.trim() && !isWaitingForResponse.value) {
     try {
       chatLogStore.addMessage(inputValue.value, true)
       
@@ -41,12 +41,30 @@ const handleSubmit = async () => {
     }
   }
 }
+
+const handleKeydown = (event) => {
+  if (event.key === 'Enter' && !event.shiftKey) {
+    event.preventDefault()
+    handleSubmit()
+  }
+}
 </script>
 
 <template>
-    <Textarea v-model="inputValue" placeholder="What else should I consider?" class="min-h-16" />
+    <Textarea 
+      v-model="inputValue" 
+      placeholder="What else should I consider?" 
+      class="min-h-16"
+      @keydown="handleKeydown"
+      :disabled="isWaitingForResponse"
+    />
     <div class="w-full flex justify-end">
-      <Button variant="default" @click="handleSubmit" :disabled="isWaitingForResponse" class="bg-[#3C82F6] hover:bg-[#2864c3]">
+      <Button 
+        variant="default" 
+        @click="handleSubmit" 
+        :disabled="isWaitingForResponse" 
+        class="bg-[#3C82F6] hover:bg-[#2864c3]"
+      >
         <LoaderCircle v-if="isWaitingForResponse" class="animate-spin h-4 w-4" />
         <span v-else>See vacation plans</span>
       </Button>
