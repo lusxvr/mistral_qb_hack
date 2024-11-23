@@ -7,10 +7,23 @@ import {
     NumberFieldIncrement,
     NumberFieldInput,
 } from '@/components/ui/number-field'
+import { useUserInfoStore } from '@/pinia/userInfo'
+
+const store = useUserInfoStore()
+
+const handleChange = (value) => {
+    store.setMaxTravelTime(value)
+}
 </script>
 
 <template>
-    <NumberField id="travel-time" :default-value="2" :min="1" :max="14">
+    <NumberField 
+        id="travel-time" 
+        :default-value="store.filter.maxTravelTime" 
+        :min="1" 
+        :max="14"
+        @update:model-value="handleChange"
+    >
         <div class="text-xs font-bold">Max. Travel Time in Hours</div>
         <NumberFieldContent>
             <NumberFieldDecrement />
