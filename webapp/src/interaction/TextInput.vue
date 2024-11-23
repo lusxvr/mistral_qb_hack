@@ -25,8 +25,8 @@ const handleSubmit = async () => {
         message: inputValue.value
       })
       
-      if (response.data && response.data.message) {
-        chatLogStore.addMessage(response.data.message, false)
+      if (response.data && response.data.response) {
+        chatLogStore.addMessage(response.data.response, false)
       }
       
       inputValue.value = ''
