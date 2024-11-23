@@ -4,6 +4,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { useChatLogStore } from '@/pinia/chatLog'
 import { ref, computed } from 'vue'
 import { LoaderCircle } from 'lucide-vue-next'
+import axios from 'axios'
 
 const chatLogStore = useChatLogStore()
 const inputValue = ref('')
@@ -15,10 +16,25 @@ const isWaitingForResponse = computed(() => {
   return lastMessage.user
 })
 
-const handleSubmit = () => {
+const handleSubmit = async () => {
   if (inputValue.value.trim()) {
-    chatLogStore.addMessage(inputValue.value, true)
-    inputValue.value = ''
+    try {
+      chatLogStore.addMessage(inputValue.value, true)
+      
+      const response = await axios.post('http://localhost:5000/', {
+        message: inputValue.value
+      })
+      
+      if (response.data && response.data.message) {
+        chatLogStore.addMessage(response.data.message, false)
+      }
+      
+      inputValue.value = ''
+    } catch (error) {
+      console.error('Error sending message:', error)
+      chatLogStore.addMessage('Sorry, there was an error processing your request.', false)
+      inputValue.value = ''
+    }
   }
 }
 </script>
