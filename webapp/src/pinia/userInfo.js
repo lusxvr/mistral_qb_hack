@@ -10,7 +10,7 @@ export const useUserInfoStore = defineStore('userInfo', () => {
     },
     maxPrice: 400,
     vibe: [],
-    travelMedium: [],
+    travelMedium: null,
     maxTravelTime: null
   })
   const userInput = ref([])
