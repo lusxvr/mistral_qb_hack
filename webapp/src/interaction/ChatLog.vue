@@ -2,9 +2,17 @@
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { useChatLogStore } from '@/pinia/chatLog'
 import { ref, watch, nextTick } from 'vue'
+import { marked } from 'marked'
+import DOMPurify from 'dompurify'
 
 const store = useChatLogStore()
 const scrollAreaRef = ref(null)
+
+const renderMarkdown = (text) => {
+  const html = marked.parse(text)
+  const sanitizedHtml = DOMPurify.sanitize(html)
+  return sanitizedHtml
+}
 
 // scroll to bottom of the chat log after new message is added
 const scrollToBottom = () => {
@@ -33,8 +41,48 @@ watch(() => store.chatLog.length, () => {
                  class="flex flex-row items-start w-full"
             >
                 <span class="font-bold w-16 shrink-0">{{ message.user ? 'User:' : 'Agent:' }}</span>
-                <span class="break-words whitespace-normal flex-1 max-w-[80%]">{{ message.message }}</span>
+                <span 
+                    class="break-words whitespace-normal flex-1 max-w-[80%] prose prose-sm"
+                    v-html="renderMarkdown(message.message)"
+                ></span>
             </div>
         </div>
     </ScrollArea>
 </template>
+
+<style>
+/* Basis Markdown Styling */
+.prose {
+    @apply text-base leading-7;
+}
+.prose p {
+    @apply my-2;
+}
+.prose ul {
+    @apply list-disc list-inside my-2;
+}
+.prose ol {
+    @apply list-decimal list-inside my-2;
+}
+.prose h1 {
+    @apply text-2xl font-bold my-3;
+}
+.prose h2 {
+    @apply text-xl font-bold my-2;
+}
+.prose h3 {
+    @apply text-lg font-bold my-2;
+}
+.prose code {
+    @apply bg-gray-100 px-1 rounded;
+}
+.prose pre {
+    @apply bg-gray-100 p-2 rounded my-2;
+}
+.prose blockquote {
+    @apply border-l-4 border-gray-300 pl-4 my-2;
+}
+.prose a {
+    @apply text-blue-600 hover:underline;
+}
+</style>
