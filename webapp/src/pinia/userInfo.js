@@ -8,7 +8,7 @@ export const useUserInfoStore = defineStore('userInfo', () => {
       start: null,
       end: null
     },
-    maxPrice: null,
+    maxPrice: 400,
     vibe: [],
     travelMedium: [],
     maxTravelTime: null
