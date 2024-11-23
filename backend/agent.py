@@ -13,29 +13,33 @@ from langchain_community.tools.tavily_search import TavilySearchResults
 from langchain_community.agent_toolkits.amadeus.toolkit import AmadeusToolkit
 from langchain_community.tools.openweathermap.tool import OpenWeatherMapQueryRun
 
-def get_agent():
-    llm = ChatMistralAI(model="mistral-large-latest")
+llm = ChatMistralAI(model="mistral-large-latest")
 
-    search_tool = TavilySearchResults(
-        max_results=5,
-        include_answer=True,
-        include_raw_content=True,
-        include_images=True,
-        search_depth="advanced",
-        # include_domains = []
-        # exclude_domains = []
-    )
-    def datetime_tool():
-        """Returns the current date and time"""
-        return datetime.now().isoformat()
-    #amadeus_tool = AmadeusToolkit()
-    weather_tool = OpenWeatherMapQueryRun()
+search_tool = TavilySearchResults(
+    max_results=5,
+    include_answer=True,
+    include_raw_content=True,
+    include_images=True,
+    search_depth="advanced",
+    # include_domains = []
+    # exclude_domains = []
+)
+def datetime_tool():
+    """Returns the current date and time"""
+    return datetime.now().isoformat()
+#amadeus_tool = AmadeusToolkit()
+weather_tool = OpenWeatherMapQueryRun()
 
-    tools = [datetime_tool, weather_tool, search_tool]#, amadeus_tool
+tools = [datetime_tool, weather_tool, search_tool]#, amadeus_tool
 
-    graph = create_react_agent(llm, tools, state_modifier=prompt, checkpointer=MemorySaver())
+graph = create_react_agent(llm, tools, state_modifier=prompt, checkpointer=MemorySaver())
 
-    return graph
+
+def get_response(inputs, config):
+    messanges = []
+    for s in graph.stream(inputs, config, stream_mode="values"):
+        messanges.append(s["messages"][-1])
+    return messanges[-1].content
 
 # def print_stream(graph, inputs, config):
 #     for s in graph.stream(inputs, config, stream_mode="values"):
@@ -44,12 +48,6 @@ def get_agent():
 #             print(message)
 #         else:
 #             message.pretty_print()
-
-def get_response(graph, inputs, config):
-    messanges = []
-    for s in graph.stream(inputs, config, stream_mode="values"):
-        messanges.append(s["messages"][-1])
-    return messanges[-1].content
 
 # graph = get_agent()
 # while True:
