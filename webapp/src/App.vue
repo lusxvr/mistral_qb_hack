@@ -2,10 +2,12 @@
 import { ref, onMounted, computed, watch } from 'vue';
 
 import { useUserInfoStore } from '@/pinia/userInfo';
+import { useChatLogStore } from '@/pinia/chatLog';
 import Filter from '@/interaction/Filter.vue';
-import Chat from '@/interaction/TextInput.vue'
-
+import TextInput from '@/interaction/TextInput.vue'
+import ChatLog from '@/interaction/ChatLog.vue'
 const userInfoStore = useUserInfoStore();
+const chatLogStore = useChatLogStore();
 </script>
 
 <template>
@@ -18,8 +20,9 @@ const userInfoStore = useUserInfoStore();
         <div class="text-4xl font-bold">Plan and Book <br>Your Dream Vacation in Minutes</div>
       </div>
       <div class="flex flex-col space-y-2 items-start justify-center h-full">
+        <ChatLog />
         <Filter />
-        <Chat />
+        <TextInput />
       </div>
     </div>
   </div>
