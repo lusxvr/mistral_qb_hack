@@ -17,7 +17,8 @@ export const useUserInfoStore = defineStore('userInfo', () => {
 
   // Actions
   const setDate = (newDate) => {
-    filter.value.date = newDate
+    filter.value.date.start = newDate.start
+    filter.value.date.end = newDate.end
   }
 
   const setMaxPrice = (price) => {

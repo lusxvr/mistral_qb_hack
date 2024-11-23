@@ -6,15 +6,35 @@ import {
 } from '@/components/ui/popover'
 import { RangeCalendar } from '@/components/ui/range-calendar'
 import { getLocalTimeZone, today } from '@internationalized/date'
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { Button } from '@/components/ui/button'
+import { useUserInfoStore } from '@/pinia/userInfo'
 
-const start = today(getLocalTimeZone())
-const end = start.add({ days: 7 })
+const store = useUserInfoStore()
 
+const handleDateChange = (range) => {
+  if (!range || !range.start || !range.end) {
+    // invalid range
+    return
+  }
+
+  const dateUpdate = {
+    start: range.start.toDate('UTC').toISOString(),
+    end: range.end.toDate('UTC').toISOString()
+  }
+  
+  store.setDate(dateUpdate)
+}
+
+// Initialer Wert
 const value = ref({
-  start,
-  end,
+  start: today(getLocalTimeZone()),
+  end: today(getLocalTimeZone()).add({ days: 7 })
+})
+
+// Initial store update
+onMounted(() => {
+  handleDateChange(value.value)
 })
 </script>
 
@@ -23,10 +43,13 @@ const value = ref({
     <div class="text-xs font-bold">Select dates</div>
     <Popover>
       <PopoverTrigger as-child>
-      <Button variant="outline" class="">Date Range</Button>
-    </PopoverTrigger>
-    <PopoverContent>
-      <RangeCalendar v-model="value" class="" />
+        <Button variant="outline">Date Range</Button>
+      </PopoverTrigger>
+      <PopoverContent>
+        <RangeCalendar 
+          v-model="value" 
+          @update:model-value="handleDateChange"
+        />
       </PopoverContent>
     </Popover>
   </div>
