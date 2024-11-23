@@ -13,7 +13,7 @@ const open = ref(false)
 
 <template>
     <Button @click="open = !open" :variant="open ? 'default' : 'outline'">
-        <span v-if="!open">Filter</span>
+        <span v-if="!open">Configure</span>
         <span v-else>Close</span>
     </Button>
     <div v-if="open"
