@@ -1,11 +1,11 @@
 <script setup>
-import { ref, onMounted, computed, watch } from 'vue';
-
 import { useUserInfoStore } from '@/pinia/userInfo';
 import { useChatLogStore } from '@/pinia/chatLog';
 import Filter from '@/interaction/Filter.vue';
 import TextInput from '@/interaction/TextInput.vue'
 import ChatLog from '@/interaction/ChatLog.vue'
+
+// initialize stores
 const userInfoStore = useUserInfoStore();
 const chatLogStore = useChatLogStore();
 </script>
