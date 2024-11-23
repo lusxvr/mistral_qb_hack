@@ -26,7 +26,7 @@ const handleSubmit = () => {
 <template>
     <Textarea v-model="inputValue" placeholder="What else should I consider?" class="min-h-48" />
     <div class="w-full flex justify-end">
-      <Button variant="default" @click="handleSubmit" :disabled="isWaitingForResponse">
+      <Button variant="default" @click="handleSubmit" :disabled="isWaitingForResponse" class="bg-[#3C82F6] hover:bg-[#2864c3]">
         <LoaderCircle v-if="isWaitingForResponse" class="animate-spin h-4 w-4" />
         <span v-else>See vacation plans</span>
       </Button>
