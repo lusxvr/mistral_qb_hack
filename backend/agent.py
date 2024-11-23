@@ -11,18 +11,33 @@ from langgraph.prebuilt import create_react_agent
 from langgraph.checkpoint.memory import MemorySaver
 from langgraph.checkpoint.memory import MemorySaver
 from langgraph.store.memory import InMemoryStore
+
 from langchain_community.tools.tavily_search import TavilySearchResults
+from langchain_community.agent_toolkits.amadeus.toolkit import AmadeusToolkit
+from langchain_community.tools.openweathermap.tool import OpenWeatherMapQueryRun
+from langchain_community.agent_toolkits.load_tools import load_tools
 
 def agent():
-    search_tool = TavilySearchResults(max_results=2)
+    llm = ChatMistralAI(model="mistral-large-latest")
+    config = {"configurable": {"thread_id": "thread-1"}}
+
+    search_tool = TavilySearchResults(
+        max_results=5,
+        include_answer=True,
+        include_raw_content=True,
+        include_images=True,
+        search_depth="advanced",
+        # include_domains = []
+        # exclude_domains = []
+    )
     def datetime_tool():
         """Returns the current date and time"""
         return datetime.now().isoformat()
+    #amadeus_tool = AmadeusToolkit()
+    weather_tool = OpenWeatherMapQueryRun()
 
-    tools = [search_tool, datetime_tool]
+    tools = [datetime_tool, weather_tool, search_tool]#, amadeus_tool
 
-    llm = ChatMistralAI(model="mistral-small-latest")
-    config = {"configurable": {"thread_id": "thread-1"}}
     graph = create_react_agent(llm, tools, state_modifier=prompt, checkpointer=MemorySaver())
 
     while True:
@@ -44,4 +59,3 @@ def print_stream(graph, inputs, config):
             message.pretty_print()
 
 agent()
-
