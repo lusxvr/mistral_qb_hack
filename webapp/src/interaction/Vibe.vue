@@ -2,16 +2,28 @@
 import { ref } from 'vue'
 import { Button } from '@/components/ui/button'
 import { Sun, Snowflake, Mountain, Volleyball } from 'lucide-vue-next'
+import { useUserInfoStore } from '@/pinia/userInfo'
 
-const isSunnyActive = ref(false)
-const isColdActive = ref(false)
-const isMountainActive = ref(false)
-const isBeachActive = ref(false)
+const store = useUserInfoStore()
 
-const toggleSunny = () => isSunnyActive.value = !isSunnyActive.value
-const toggleCold = () => isColdActive.value = !isColdActive.value
-const toggleMountain = () => isMountainActive.value = !isMountainActive.value
-const toggleBeach = () => isBeachActive.value = !isBeachActive.value
+const toggleVibe = (vibeType) => {
+    const currentVibes = [...store.filter.vibe]
+    const index = currentVibes.indexOf(vibeType)
+    
+    if (index === -1) {
+        // vibe not in array -> add
+        currentVibes.push(vibeType)
+    } else {
+        // vibe in array -> remove
+        currentVibes.splice(index, 1)
+    }
+    
+    store.setVibe(currentVibes)
+}
+
+const isVibeActive = (vibeType) => {
+    return store.filter.vibe.includes(vibeType)
+}
 </script>
 
 <template>
@@ -19,32 +31,36 @@ const toggleBeach = () => isBeachActive.value = !isBeachActive.value
         <div class="text-xs font-bold">Select Vibe</div>
         <div class="flex flex-row space-x-1">
             <Button 
-                :variant="isSunnyActive ? 'default' : 'outline'"
-                @click="toggleSunny"
+                :variant="isVibeActive('Sunny') ? 'default' : 'outline'"
+                @click="toggleVibe('Sunny')"
+                class="flex flex-row items-center gap-2"
             >
-                <Sun :size="8" />
-                Sunny
+                <Sun :size="16" />
+                <span>Sunny</span>
             </Button>
             <Button 
-                :variant="isColdActive ? 'default' : 'outline'"
-                @click="toggleCold"
+                :variant="isVibeActive('Cold') ? 'default' : 'outline'"
+                @click="toggleVibe('Cold')"
+                class="flex flex-row items-center gap-2"
             >
-                <Snowflake :size="8" />
-                Cold
+                <Snowflake :size="16" />
+                <span>Cold</span>
             </Button>
             <Button 
-                :variant="isMountainActive ? 'default' : 'outline'"
-                @click="toggleMountain"
+                :variant="isVibeActive('Mountains') ? 'default' : 'outline'"
+                @click="toggleVibe('Mountains')"
+                class="flex flex-row items-center gap-2"
             >
-                <Mountain :size="8" />
-                Mountains
+                <Mountain :size="16" />
+                <span>Mountains</span>
             </Button>
             <Button 
-                :variant="isBeachActive ? 'default' : 'outline'"
-                @click="toggleBeach"
+                :variant="isVibeActive('Beach') ? 'default' : 'outline'"
+                @click="toggleVibe('Beach')"
+                class="flex flex-row items-center gap-2"
             >
-                <Volleyball :size="8" />
-                Beach
+                <Volleyball :size="16" />
+                <span>Beach</span>
             </Button>
         </div>
     </div>
