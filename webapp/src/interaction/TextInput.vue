@@ -21,8 +21,12 @@ const handleSubmit = async () => {
     try {
       chatLogStore.addMessage(inputValue.value, true)
       
-      const response = await axios.post('http://localhost:8000/', {
-        message: inputValue.value
+      const response = await axios.post('http://localhost:8000/chat', {
+        input: inputValue.value
+      }, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
       })
       
       if (response.data && response.data.response) {
