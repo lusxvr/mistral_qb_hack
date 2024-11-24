@@ -72,6 +72,7 @@ class TravelRecResponse(BaseModel):
     city: str = Field(description="For the results carusel: The identified city of the trip")
     country: str = Field(description="For the results carusel: The identified country of the trip")
     title: str = Field(description="For the results carusel: The identified country of the trip")
+    price: str = Field(description="For the results carusel: The price of the trip per person")
     travelMedium: str = Field(description="For the results carusel: The travel medium of the trip (e.g. Train, Bus, Car, Plane)")
     amountPeople: str = Field(description="For the results carusel: The amount of people on the trip")
     amountNights: str = Field(description="For the results carusel: The amount of night of the trip")
