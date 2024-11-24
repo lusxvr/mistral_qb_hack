@@ -111,7 +111,7 @@ const handleDelete = (filter) => {
 
 <template>
     <div v-if="open"
-        class="w-full flex flex-col space-y-4 mb-4 items-start transform transition-all duration-300 ease-out"
+        class="w-full flex flex-col space-y-4 mb-4 items-start transform transition-all duration-300 ease-out border p-4 rounded-lg"
         :class="open ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0'">
         <DateRange />
         <Price class="w-[24rem]" />

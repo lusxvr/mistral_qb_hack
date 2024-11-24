@@ -81,6 +81,8 @@ Stay at the legendary Maison Rouge hotel, in the heart of Strasbourg, and enjoy 
 
 Pay special attention the the markdown formatting of the response. 
 
+To generate a url to show a corresponding image, use the given image_tool which returns a url that you just copy to the final output
+
 User:
 """
 
