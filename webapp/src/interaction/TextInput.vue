@@ -99,8 +99,15 @@ const handleKeydown = (event) => {
 </script>
 
 <template>
-    <Textarea v-model="inputValue" placeholder="Let me help you plan your trip! What do you want to do?"
-        class="min-h-16" @keydown="handleKeydown" :disabled="isWaitingForResponse" />
+    <Textarea 
+        v-model="inputValue" 
+        :placeholder="chatLogStore.chatStarted 
+            ? 'What else should I consider?' 
+            : 'Let me help you plan your trip! What do you want to do?'"
+        class="min-h-16" 
+        @keydown="handleKeydown" 
+        :disabled="isWaitingForResponse" 
+    />
     <div class="w-full flex justify-end space-x-2">
         <Button variant="ghost" class="rounded-full" @click="startListening" :disabled="isWaitingForResponse || isListening">
             <LoaderCircle v-if="isListening" class="animate-spin h-4 w-4" />
