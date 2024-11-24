@@ -39,6 +39,7 @@ def get_response(inputs, config):
     messanges = []
     for s in graph.stream(inputs, config, stream_mode="values"):
         messanges.append(s["messages"][-1])
+    print(messanges[-1].content)
     return messanges[-1].content
 
 # def print_stream(graph, inputs, config):
