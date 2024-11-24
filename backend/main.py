@@ -5,6 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from . import agent
+from .system_prompt import prompt
 
 app = FastAPI()
 
@@ -29,7 +30,7 @@ class UserInput(BaseModel):
 @app.post("/chat")
 async def chat(user_input: UserInput):
     try:
-        inputs = {"messages": [("user", user_input.input)]}
+        inputs = {"messages": [("user", prompt+user_input.input)]}
         config = {"configurable": {"thread_id": "thread-1"}}
         response = agent.get_response(inputs, config)
         return {"response": response}
