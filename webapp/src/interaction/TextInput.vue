@@ -103,6 +103,15 @@ const handleSubmit = async () => {
                     description: response.data.response.description
                 })
 
+                if (response.data.response.ad_auction) {
+                    recommendationStore.setAdAuction({
+                        productName: response.data.response.ad_auction.product_name,
+                        imageLink: response.data.response.ad_auction.image_link,
+                        url: response.data.response.ad_auction.url,
+                        price: response.data.response.ad_auction.price
+                    })
+                }
+
                 if (response.data.response.city && 
                     response.data.response.country && 
                     response.data.response.description) {
