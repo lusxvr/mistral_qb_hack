@@ -2,11 +2,14 @@
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { useChatLogStore } from '@/pinia/chatLog'
+import { useUserInfoStore } from '@/pinia/userInfo'
 import { ref, computed } from 'vue'
 import { LoaderCircle, CornerDownRight, Mic } from 'lucide-vue-next'
 import axios from 'axios'
+import { buildMessage } from '@/interaction/messageBuilder'
 
 const chatLogStore = useChatLogStore()
+const userInfoStore = useUserInfoStore()
 const inputValue = ref('')
 const isListening = ref(false)
 
@@ -67,10 +70,13 @@ const isWaitingForResponse = computed(() => {
 const handleSubmit = async () => {
     if (inputValue.value.trim() && !isWaitingForResponse.value) {
         try {
-            chatLogStore.addMessage(inputValue.value, true)
+            const userMessage = inputValue.value
+            chatLogStore.addMessage(userMessage, true)
+
+            const fullMessage = buildMessage(userMessage, userInfoStore)
 
             const response = await axios.post('http://localhost:8000/chat', {
-                input: inputValue.value
+                input: fullMessage
             }, {
                 headers: {
                     'Content-Type': 'application/json'
