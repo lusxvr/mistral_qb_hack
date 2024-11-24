@@ -1,6 +1,7 @@
 <script setup>
 import { useUserInfoStore } from '@/pinia/userInfo';
 import { useChatLogStore } from '@/pinia/chatLog';
+import { useCurrentRecommendationStore } from '@/pinia/currentRecommendation';
 import Filter from '@/interaction/Filter.vue';
 import TextInput from '@/interaction/TextInput.vue'
 import ChatLog from '@/interaction/ChatLog.vue'
@@ -11,6 +12,7 @@ import { PlaneTakeoff } from 'lucide-vue-next'
 // initialize stores
 const userInfoStore = useUserInfoStore();
 const chatLogStore = useChatLogStore();
+const currentRecommendationStore = useCurrentRecommendationStore();
 </script>
 
 <template>
