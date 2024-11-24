@@ -38,4 +38,3 @@ def get_unsplash_image_url(query: str) -> str:
         return data["results"][0]["urls"]["regular"]  # Return the URL of the first image
     else:
         raise ValueError("No images found for the given query.")
-    

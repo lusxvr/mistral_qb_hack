@@ -34,7 +34,7 @@ async def chat(user_input: UserInput):
         inputs = {"messages": [("user", prompt+user_input.input)]}
         config = {"configurable": {"thread_id": "thread-1"}}
         response = agent.get_response(inputs, config)
-        image_url = get_unsplash_image_url(str(response.city)+" sightseeing highlight")
+        image_url = get_unsplash_image_url(str(response.city)+" skyline")
         response.imgAddress = image_url
         return {"response": response}
     except Exception as e:
