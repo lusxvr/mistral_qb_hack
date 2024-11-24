@@ -1,12 +1,12 @@
 from sentence_transformers import SentenceTransformer, util
 import numpy as np
-import sponsors_data as sd
+from .sponsors_data import sponsors
 
 # Load the SentenceTransformer model
 model = SentenceTransformer('all-MiniLM-L6-v2')
 
 # Encode sponsor descriptions into embeddings
-sponsor_descriptions = [s["description"] for s in sd.sponsors]
+sponsor_descriptions = [s["description"] for s in sponsors]
 sponsor_embeddings = model.encode(sponsor_descriptions, convert_to_tensor=True)
 
 def ad_auction(user_query):
@@ -18,7 +18,7 @@ def ad_auction(user_query):
     relevance_scores = relevance_scores.cpu().numpy()  # Convert to NumPy array
 
     # Multiply relevance scores by bid values
-    quality_adjusted_bids = relevance_scores * np.array([s["bid"] for s in sd.sponsors])
+    quality_adjusted_bids = relevance_scores * np.array([s["bid"] for s in sponsors])
 
     # Sort quality-adjusted bids in descending order
     sorted_indices = np.argsort(quality_adjusted_bids)[::-1]
@@ -28,7 +28,7 @@ def ad_auction(user_query):
     second_best_index = sorted_indices[1] if len(sorted_indices) > 1 else None
 
     # Identify the winning sponsor
-    winning_sponsor = sd.sponsors[winning_index]
+    winning_sponsor = sponsors[winning_index]
 
     # Calculate actual CPC (second-price logic)
     if second_best_index is not None:
