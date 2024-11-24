@@ -3,70 +3,115 @@ import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { useChatLogStore } from '@/pinia/chatLog'
 import { ref, computed } from 'vue'
-import { LoaderCircle, CornerDownRight } from 'lucide-vue-next'
+import { LoaderCircle, CornerDownRight, Mic } from 'lucide-vue-next'
 import axios from 'axios'
 
 const chatLogStore = useChatLogStore()
 const inputValue = ref('')
+const isListening = ref(false)
 
-const isWaitingForResponse = computed(() => {
-  const messages = chatLogStore.chatLog
-  if (messages.length === 0) return false
-  const lastMessage = messages[messages.length - 1]
-  return lastMessage.user
-})
+let recognition = null
+try {
+  // check browser compatibility
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
+  recognition = new SpeechRecognition()
+  recognition.lang = 'en-US'
+  recognition.continuous = false
+  recognition.interimResults = false
+} catch (e) {
+  console.error('Speech Recognition not supported:', e)
+}
 
-const handleSubmit = async () => {
-  if (inputValue.value.trim() && !isWaitingForResponse.value) {
-    try {
-      chatLogStore.addMessage(inputValue.value, true)
-      
-      const response = await axios.post('http://localhost:8000/chat', {
-        input: inputValue.value
-      }, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-      
-      if (response.data && response.data.response) {
-        chatLogStore.addMessage(response.data.response, false)
-      }
-      
-      inputValue.value = ''
-    } catch (error) {
-      console.error('Error sending message:', error)
-      chatLogStore.addMessage('Sorry, there was an error processing your request.', false)
-      inputValue.value = ''
-    }
+const startListening = () => {
+  if (!recognition) {
+    console.error('Speech Recognition not available')
+    return
+  }
+
+  isListening.value = true
+  recognition.start()
+}
+
+const stopListening = () => {
+  if (recognition) {
+    recognition.stop()
+    isListening.value = false
   }
 }
 
-const handleKeydown = (event) => {
-  if (event.key === 'Enter' && !event.shiftKey) {
-    event.preventDefault()
+if (recognition) {
+  recognition.onresult = (event) => {
+    const transcript = event.results[0][0].transcript
+    inputValue.value = transcript
+    stopListening()
     handleSubmit()
   }
+
+  recognition.onerror = (event) => {
+    console.error('Speech Recognition Error:', event.error)
+    stopListening()
+  }
+
+  recognition.onend = () => {
+    stopListening()
+  }
+}
+
+const isWaitingForResponse = computed(() => {
+    const messages = chatLogStore.chatLog
+    if (messages.length === 0) return false
+    const lastMessage = messages[messages.length - 1]
+    return lastMessage.user
+})
+
+const handleSubmit = async () => {
+    if (inputValue.value.trim() && !isWaitingForResponse.value) {
+        try {
+            chatLogStore.addMessage(inputValue.value, true)
+
+            const response = await axios.post('http://localhost:8000/chat', {
+                input: inputValue.value
+            }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+
+            if (response.data && response.data.response) {
+                chatLogStore.addMessage(response.data.response, false)
+            }
+
+            inputValue.value = ''
+        } catch (error) {
+            console.error('Error sending message:', error)
+            chatLogStore.addMessage('Sorry, there was an error processing your request.', false)
+            inputValue.value = ''
+        }
+    }
+}
+
+const handleKeydown = (event) => {
+    if (event.key === 'Enter' && !event.shiftKey) {
+        event.preventDefault()
+        handleSubmit()
+    }
 }
 </script>
 
 <template>
-    <Textarea 
-      v-model="inputValue" 
-      placeholder="Let me help you plan your trip! What do you want to do?" 
-      class="min-h-16"
-      @keydown="handleKeydown"
-      :disabled="isWaitingForResponse"
-    />
-    <div class="w-full flex justify-end">
-      <Button 
-        variant="default" 
-        @click="handleSubmit" 
-        :disabled="isWaitingForResponse" 
-        class="bg-[#3C82F6] hover:bg-[#2864c3]"
-      >
-        <LoaderCircle v-if="isWaitingForResponse" class="animate-spin h-4 w-4" />
-        <span v-else class="px-2"><CornerDownRight class="h-4 w-4" /></span>
-      </Button>
+    <Textarea v-model="inputValue" placeholder="Let me help you plan your trip! What do you want to do?"
+        class="min-h-16" @keydown="handleKeydown" :disabled="isWaitingForResponse" />
+    <div class="w-full flex justify-end space-x-2">
+        <Button variant="ghost" class="rounded-full" @click="startListening" :disabled="isWaitingForResponse || isListening">
+            <LoaderCircle v-if="isListening" class="animate-spin h-4 w-4" />
+            <Mic v-else class="h-4 w-4" />
+        </Button>
+        <Button variant="default" @click="handleSubmit" :disabled="isWaitingForResponse"
+            class="bg-[#3C82F6] hover:bg-[#2864c3]">
+            <LoaderCircle v-if="isWaitingForResponse" class="animate-spin h-4 w-4" />
+            <span v-else class="px-2">
+                <CornerDownRight class="h-4 w-4" />
+            </span>
+        </Button>
     </div>
 </template>
