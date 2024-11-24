@@ -81,6 +81,8 @@ class TravelRecResponse(BaseModel):
     amountNights: str = Field(description="For the results carusel: The amount of night of the trip")
     travelTime: str = Field(description="For the results carusel: Total travel time one way to get to the destination")
     imgAddress: str = Field(description="For the results carusel: Single link to individual picture representative of the city")
+    description: str = Field(description="For the results carusel: Short one-sentence description of the whole recommendation that gets placed in the results carusel")
+
 
 
 
