@@ -16,6 +16,13 @@ export const useCurrentRecommendationStore = defineStore('currentRecommendation'
     description: null
   })
 
+  const adAuction = ref({
+    productName: null,
+    imageLink: null,
+    url: null,
+    price: null
+  })
+
   // Actions
   const setRecommendation = ({
     city,
@@ -43,6 +50,20 @@ export const useCurrentRecommendationStore = defineStore('currentRecommendation'
     }
   }
 
+  const setAdAuction = ({
+    productName,
+    imageLink,
+    url,
+    price
+  }) => {
+    adAuction.value = {
+      productName,
+      imageLink,
+      url,
+      price
+    }
+  }
+
   const clearRecommendation = () => {
     recommendation.value = {
       city: null,
@@ -61,8 +82,10 @@ export const useCurrentRecommendationStore = defineStore('currentRecommendation'
   return {
     // State
     recommendation,
+    adAuction,
     // Actions
     setRecommendation,
+    setAdAuction,
     clearRecommendation
   }
 })
