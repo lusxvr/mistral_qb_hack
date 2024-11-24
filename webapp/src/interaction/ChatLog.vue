@@ -100,7 +100,7 @@ const getTypingMessage = (messageId) => {
 </script>
 
 <template>
-    <ScrollArea ref="scrollAreaRef" class="w-full h-[300px]" v-if="store.chatStarted">
+    <ScrollArea ref="scrollAreaRef" class="w-full" v-if="store.chatStarted">
         <div class="min-h-[150px] flex flex-col items-start text-left w-full rounded-lg px-4 py-2 space-y-2">
             <div v-for="message in [...store.chatLog].sort((a, b) => a.id - b.id)" 
                  :key="message.id" 
