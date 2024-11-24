@@ -20,7 +20,7 @@ const chatLogStore = useChatLogStore();
       </div>
     </header>
     <div class="mt-8 mx-4 md:mx-16 lg:mx-48 2xl:mx-64 text-center">
-      <div class="mb-8">
+      <div v-if="!chatLogStore.chatStarted" class="mb-8">
         <div class="text-4xl font-bold">
           Plan and Book <br>
           Your Dream Vacation 
