@@ -64,21 +64,22 @@ const travelMediums = computed(() => {
                     </div>
                     <div class="w-full border-b"></div>
                     <div class="flex items-center justify-between">
-                        <span class="text-lg font-bold">{{ formatPrice(recommendationStore.recommendation.price) }}</span>
+                        <span class="text-lg font-bold">{{ recommendationStore.recommendation.price }}€</span>
                         <Button>Book Now</Button>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="w-full max-w-md mx-auto h-16">
+        <div class="w-full max-w-md mx-auto mb-8">
             <div class="bg-white rounded-lg shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl">
                 <div class="flex h-full">
-                    <div class="w-1/2 h-full">
+                    <div class="w-1/2 h-full relative">
                         <img 
                             :src="recommendationStore.adAuction.imageLink" 
                             :alt="recommendationStore.adAuction.productName" 
                             class="w-full h-full object-cover"
                         />
+                        <Badge class="absolute top-2 left-2"variant="outline">Ad</Badge>
                     </div>
                     <div class="w-1/2 p-4 flex flex-col justify-between h-full">
                         <h3 class="text-lg font-semibold text-left">{{ recommendationStore.adAuction.productName }}</h3>
