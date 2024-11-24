@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { useChatLogStore } from '@/pinia/chatLog'
 import { useUserInfoStore } from '@/pinia/userInfo'
+import { useCurrentRecommendationStore } from '@/pinia/currentRecommendation'
 import { ref, computed } from 'vue'
 import { LoaderCircle, CornerDownRight, Mic } from 'lucide-vue-next'
 import axios from 'axios'
@@ -10,6 +11,7 @@ import { buildMessage } from '@/interaction/messageBuilder'
 
 const chatLogStore = useChatLogStore()
 const userInfoStore = useUserInfoStore()
+const recommendationStore = useCurrentRecommendationStore()
 const inputValue = ref('')
 const isListening = ref(false)
 
@@ -67,6 +69,8 @@ const isWaitingForResponse = computed(() => {
     return lastMessage.user
 })
 
+// THIS IS THE FUNCTION FOR THE HTTP REQUEST TO THE BACKEND 
+// HANDLING THE INPUT FROM THE USER AND THE RESPONSE FROM THE BACKEND
 const handleSubmit = async () => {
     if (inputValue.value.trim() && !isWaitingForResponse.value) {
         try {
@@ -84,7 +88,26 @@ const handleSubmit = async () => {
             })
 
             if (response.data && response.data.response) {
-                chatLogStore.addMessage(response.data.response, false)
+                chatLogStore.addMessage(response.data.response.answer, false)
+                
+                recommendationStore.setRecommendation({
+                    city: response.data.response.city,
+                    country: response.data.response.country,
+                    title: response.data.response.title,
+                    travelMedium: response.data.response.travelMedium,
+                    travelTime: parseFloat(response.data.response.travelTime),
+                    price: parseFloat(response.data.response.price),
+                    amountPeople: parseInt(response.data.response.amountPeople),
+                    amountNights: parseInt(response.data.response.amountNights),
+                    imgAddress: response.data.response.imgAddress,
+                    description: response.data.response.description
+                })
+
+                if (response.data.response.city && 
+                    response.data.response.country && 
+                    response.data.response.description) {
+                    chatLogStore.setHasRecommendation(true)
+                }
             }
 
             inputValue.value = ''
