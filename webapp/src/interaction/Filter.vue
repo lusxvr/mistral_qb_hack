@@ -5,6 +5,7 @@ import Price from '@/interaction/Price.vue'
 import Vibe from '@/interaction/Vibe.vue'
 import TravelMedium from '@/interaction/TravelMedium.vue'
 import TravelTime from '@/interaction/TravelTime.vue'
+import AmountPeople from '@/interaction/AmountPeople.vue'
 
 import { ref } from 'vue'
 
@@ -20,6 +21,7 @@ const open = ref(false)
         <Vibe />
         <TravelMedium />
         <TravelTime />
+        <AmountPeople />
     </div>
     <Button @click="open = !open" :variant="open ? 'default' : 'outline'">
         <span v-if="!open">Configure</span>

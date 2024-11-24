@@ -8,10 +8,11 @@ export const useUserInfoStore = defineStore('userInfo', () => {
       start: null,
       end: null
     },
-    maxPrice: 400,
+    maxPrice: null,
     vibe: [],
     travelMedium: null,
-    maxTravelTime: 2
+    maxTravelTime: null,
+    personAmount: null
   })
   const userInput = ref([])
 
@@ -37,6 +38,10 @@ export const useUserInfoStore = defineStore('userInfo', () => {
     filter.value.maxTravelTime = time
   }
 
+  const setPersonAmount = (amount) => {
+    filter.value.personAmount = amount
+  }
+
   const addUserInput = (input) => {
     userInput.value.push(input)
   }
@@ -55,6 +60,7 @@ export const useUserInfoStore = defineStore('userInfo', () => {
     setVibe,
     setTravelMedium,
     setMaxTravelTime,
+    setPersonAmount,
     addUserInput,
     removeUserInput
   }
