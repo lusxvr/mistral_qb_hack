@@ -69,6 +69,8 @@ const isWaitingForResponse = computed(() => {
     return lastMessage.user
 })
 
+// THIS IS THE FUNCTION FOR THE HTTP REQUEST TO THE BACKEND 
+// HANDLING THE INPUT FROM THE USER AND THE RESPONSE FROM THE BACKEND
 const handleSubmit = async () => {
     if (inputValue.value.trim() && !isWaitingForResponse.value) {
         try {
