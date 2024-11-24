@@ -2,7 +2,7 @@
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { useCurrentRecommendationStore } from '@/pinia/currentRecommendation'
-import { Plane, Bus, Timer, Calendar } from 'lucide-vue-next'
+import { Plane, Bus, Train, Car, Timer, Calendar } from 'lucide-vue-next'
 
 const recommendationStore = useCurrentRecommendationStore()
 </script>
@@ -29,8 +29,10 @@ const recommendationStore = useCurrentRecommendationStore()
                 <div class="w-full border-b"></div>
                 <div class="flex items-center justify-between">
                     <div class="flex items-center gap-2">
-                        <Plane v-if="recommendationStore.recommendation.travelMedium === 'plane'" />
-                        <Bus v-if="recommendationStore.recommendation.travelMedium === 'bus'" />
+                        <Plane v-if="recommendationStore.recommendation.travelMedium?.toLowerCase() === 'plane'" />
+                        <Bus v-if="recommendationStore.recommendation.travelMedium?.toLowerCase() === 'bus'" />
+                        <Train v-if="recommendationStore.recommendation.travelMedium?.toLowerCase() === 'train'" />
+                        <Car v-if="recommendationStore.recommendation.travelMedium?.toLowerCase() === 'car'" />
                     </div>
                     <div class="flex items-center gap-2">
                         <Timer />
