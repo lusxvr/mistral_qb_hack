@@ -1,12 +1,12 @@
 # Mistral QB Hackathon
 
-This project was built during the 2-day Mistral-Quantum Black Hackathon at école polytechnique in Paris, by Diane Mansard, Felix Müller, [Luis Wiedmann](https://www.linkedin.com/in/luis-wiedmann/) and [Jan Dorn](https://www.linkedin.com/in/jandorn/).
+This project was built during the 2-day Mistral-Quantum Black Hackathon at École Polytechnique in Paris, by Diane Mansard, Felix Müller, [Luis Wiedmann](https://www.linkedin.com/in/luis-wiedmann/) and [Jan Dorn](https://www.linkedin.com/in/jandorn/).
 
 ## Overview
 
 The goal of the hackathon was to build a retail assistant using LLMs provided by Mistral. It was not specified what kind of product to sell, so early on we decided to build a travel planner that helps users find the perfect trip and then sells it to them.
 
-Through a user-friendly webapp, the user can input their preferences using some default filters and a free-text field. The webapp then uses the LLM to find the perfect trip and displays it to the user.
+Through a user-friendly webapp, the user can input their preferences using some default filters and a free-text field. The webapp then uses the LLM to find the perfect trip and displays it to the user. The user can iterate on the the results by chatting with the LLMs and adjusting the filters. As soon as the user is happy with the results, he or she can buy the trip by following a link to the appropriate booking page.
 
 ## Installation
 To lauch the app locally, we have to spin up a local webserver for the webapp and the backend.
