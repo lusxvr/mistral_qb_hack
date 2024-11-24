@@ -6,6 +6,7 @@ export const useChatLogStore = defineStore('chatLog', () => {
   const chatLog = ref([])
   const currentId = ref(0)
   const chatStarted = ref(false)
+  const hasRecommendation = ref(false)
 
   // Actions
   const addMessage = (message, isUser) => {
@@ -18,18 +19,25 @@ export const useChatLogStore = defineStore('chatLog', () => {
     currentId.value++
   }
 
+  const setHasRecommendation = (value) => {
+    hasRecommendation.value = value
+  }
+
   const clearChat = () => {
     chatLog.value = []
     currentId.value = 0
     chatStarted.value = false
+    hasRecommendation.value = false
   }
 
   return {
     // State
     chatLog,
     chatStarted,
+    hasRecommendation,
     // Actions
     addMessage,
-    clearChat
+    clearChat,
+    setHasRecommendation
   }
 })
