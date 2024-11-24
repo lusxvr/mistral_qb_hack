@@ -13,7 +13,7 @@ const sliderValue = computed({
 
 <template>
     <div class="flex flex-col items-start space-y-2">
-        <div class="text-xs font-bold">Select Price</div>
+        <div class="text-xs font-bold">Select Price p.P.</div>
         <Slider
             v-model="sliderValue"
             :default-value="[400]"
@@ -21,7 +21,7 @@ const sliderValue = computed({
             :step="100"
         />
         <div class="flex flex-row justify-between w-full">
-            <span class="text-xs">How much are you willing to spend?</span>
+            <span class="text-xs">How much are you willing to spend per person?</span>
             <span class="text-xs">{{ store.filter.maxPrice }}€</span>
         </div>
     </div>
