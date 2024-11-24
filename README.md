@@ -6,7 +6,7 @@ This project was built during the 2-day Mistral-Quantum Black Hackathon at Écol
 
 The goal of the hackathon was to build a retail assistant using LLMs provided by Mistral. It was not specified what kind of product to sell, so early on we decided to build a travel planner that helps users find the perfect trip and then sells it to them.
 
-Through a user-friendly webapp, the user can input their preferences using some default filters and a free-text field. The webapp then uses the LLM to find the perfect trip and displays it to the user. The user can iterate on the the results by chatting with the LLMs and adjusting the filters. As soon as the user is happy with the results, he or she can buy the trip by following a link to the appropriate booking page.
+Through a user-friendly webapp, the user can input their preferences using some default filters and a free-text field or ask for suggestions. The webapp then uses the LLM to find the perfect trip and displays it to the user. The user can iterate on the the results by chatting with the LLMs and adjusting the filters. As soon as the user is happy with the results, he or she can buy the trip by following a link to the appropriate booking page.
 
 ## Installation
 To lauch the app locally, we have to spin up a local webserver for the webapp and the backend.
