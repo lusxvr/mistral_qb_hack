@@ -80,8 +80,7 @@ class TravelRecResponse(BaseModel):
     amountPeople: str = Field(description="For the results carusel: The amount of people on the trip")
     amountNights: str = Field(description="For the results carusel: The amount of night of the trip")
     travelTime: str = Field(description="For the results carusel: Total travel time one way to get to the destination")
-    imgAddress: str = Field(description="For the results carusel: Single link to individual picture representative of the city (e.g. https://images.unsplash.com/photo-1544244790-9aebdd40c942?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2Nzk0MTF8MHwxfHNlYXJjaHwxfHxQYXJpcyUyMEhpZ2hsaWdodHN8ZW58MHwwfHx8MTczMjQ2NTY2Mnww&ixlib=rb-4.0.3&q=80&w=1080)")
-    description: str = Field(description="For the results carusel: Short one-sentence description of the whole recommendation that gets placed in the results carusel")
+    imgAddress: str = Field(description="For the results carusel: Single link to individual picture representative of the city")
 
 
 
@@ -103,10 +102,10 @@ def datetime_tool():
     """Returns the current date and time"""
     return datetime.now().isoformat()
 
-def image_tool(query: str) -> str:
-    """Returns a image url for the given query
-    Use this to generate an image representative of the trip and just copy the FULL result to the final answer"""
-    return get_unsplash_image_url(query)
+# def image_tool(query: str) -> str:
+#     """Returns a image url for the given query
+#     Use this to generate an image representative of the trip and just copy the FULL result to the final answer"""
+#     return get_unsplash_image_url(query)
 #amadeus_tool = AmadeusToolkit()
 weather_tool = OpenWeatherMapQueryRun()
 
@@ -114,7 +113,7 @@ memory = MemorySaver()
 
 model = ChatMistralAI(model="mistral-large-latest")
 
-tools = [datetime_tool, weather_tool, image_tool, search_tool]
+tools = [datetime_tool, weather_tool, search_tool]#image_tool,
 
 
 model_with_tools = model.bind_tools(tools)
