@@ -3,8 +3,18 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { useCurrentRecommendationStore } from '@/pinia/currentRecommendation'
 import { Plane, Bus, Train, Car, Timer, Calendar } from 'lucide-vue-next'
+import { computed } from 'vue'
 
 const recommendationStore = useCurrentRecommendationStore()
+
+// Computed property für die Transportmittel
+const travelMediums = computed(() => {
+    if (!recommendationStore.recommendation.travelMedium) return []
+    return recommendationStore.recommendation.travelMedium
+        .toLowerCase()
+        .split(',')
+        .map(medium => medium.trim())
+})
 </script>
 
 <template>
@@ -29,10 +39,10 @@ const recommendationStore = useCurrentRecommendationStore()
                 <div class="w-full border-b"></div>
                 <div class="flex items-center justify-between">
                     <div class="flex items-center gap-2">
-                        <Plane v-if="recommendationStore.recommendation.travelMedium?.toLowerCase() === 'plane'" />
-                        <Bus v-if="recommendationStore.recommendation.travelMedium?.toLowerCase() === 'bus'" />
-                        <Train v-if="recommendationStore.recommendation.travelMedium?.toLowerCase() === 'train'" />
-                        <Car v-if="recommendationStore.recommendation.travelMedium?.toLowerCase() === 'car'" />
+                        <Plane v-if="travelMediums.includes('plane')" />
+                        <Bus v-if="travelMediums.includes('bus')" />
+                        <Train v-if="travelMediums.includes('train')" />
+                        <Car v-if="travelMediums.includes('car')" />
                     </div>
                     <div class="flex items-center gap-2">
                         <Timer />
