@@ -13,7 +13,7 @@ DOMPurify.setConfig({
   ADD_ATTR: ['target', 'rel']
 })
 
-// custom renderer for marked
+// Custom renderer für marked
 const renderer = {
   link(href, title, text) {
     const link = marked.Renderer.prototype.link.call(this, href, title, text)
@@ -22,7 +22,6 @@ const renderer = {
 }
 
 const renderMarkdown = (text) => {
-  // set the renderer options
   marked.setOptions({
     renderer: new marked.Renderer(),
     breaks: true,
@@ -55,17 +54,23 @@ watch(() => store.chatLog.length, () => {
 </script>
 
 <template>
-    <ScrollArea ref="scrollAreaRef" class="w-full h-[150px]">
-        <div class="min-h-[150px] flex flex-col items-start text-left w-full bg-slate-100 rounded-lg px-4 py-2 space-y-2 [box-shadow:inset_0_2px_4px_0_rgb(0_0_0_/_0.05)]">
+    <ScrollArea ref="scrollAreaRef" class="w-full h-[300px]">
+        <div class="min-h-[150px] flex flex-col items-start text-left w-full rounded-lg px-4 py-2 space-y-2">
             <div v-for="message in [...store.chatLog].sort((a, b) => a.id - b.id)" 
                  :key="message.id" 
-                 class="flex flex-row items-start w-full"
+                 class="flex w-full"
+                 :class="message.user ? 'justify-end' : 'justify-start'"
             >
-                <span class="font-bold w-16 shrink-0">{{ message.user ? 'User:' : 'Agent:' }}</span>
-                <span 
-                    class="break-words whitespace-normal flex-1 max-w-[80%] prose prose-sm"
-                    v-html="renderMarkdown(message.message)"
-                ></span>
+                <div 
+                    class="max-w-[80%] rounded-xl px-4 py-2"
+                    :class="message.user ? 'bg-slate-100' : ''"
+                >
+                    <span 
+                        class="break-words whitespace-normal prose prose-sm"
+                        :class="message.user ? 'prose-invert' : ''"
+                        v-html="renderMarkdown(message.message)"
+                    ></span>
+                </div>
             </div>
         </div>
     </ScrollArea>
