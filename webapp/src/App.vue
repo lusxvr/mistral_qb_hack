@@ -4,6 +4,8 @@ import { useChatLogStore } from '@/pinia/chatLog';
 import Filter from '@/interaction/Filter.vue';
 import TextInput from '@/interaction/TextInput.vue'
 import ChatLog from '@/interaction/ChatLog.vue'
+import RecommendationCard from '@/recommendation/RecommendationCard.vue'
+
 import { PlaneTakeoff } from 'lucide-vue-next'
 
 // initialize stores
@@ -19,9 +21,9 @@ const chatLogStore = useChatLogStore();
         <PlaneTakeoff :size="32" color="#3C82F6" :stroke-width="2.5" />
       </div>
     </header>
-    <div class="flex flex-col sm:flex-row h-full mx-4 md:mx-16 xl:mx-32 space-y-2 sm:space-y-0 sm:space-x-2">
+    <div class="flex flex-col lg:flex-row h-full mx-4 md:mx-8 space-y-2 lg:space-y-0 lg:space-x-8">
       <div class="w-full flex flex-col py-2 md:py-8 text-center h-full"
-        :class="chatLogStore.hasRecommendation ? 'sm:w-[70%]' : ''"
+        :class="chatLogStore.hasRecommendation ? 'lg:w-[70%]' : ''"
       >
         <div v-if="!chatLogStore.chatStarted" class="mb-8">
           <div class="text-4xl font-bold">
@@ -42,7 +44,9 @@ const chatLogStore = useChatLogStore();
           </div>
         </div>
       </div>
-      <div v-if="chatLogStore.hasRecommendation" class="w-full sm:w-[30%] h-full">test</div>
+      <div v-if="chatLogStore.hasRecommendation" class="w-full lg:w-[30%] h-full">
+        <RecommendationCard />
+      </div>
     </div>
   </div>
 </template>
