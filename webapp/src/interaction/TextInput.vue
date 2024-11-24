@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { useChatLogStore } from '@/pinia/chatLog'
 import { ref, computed } from 'vue'
-import { LoaderCircle } from 'lucide-vue-next'
+import { LoaderCircle, CornerDownRight } from 'lucide-vue-next'
 import axios from 'axios'
 
 const chatLogStore = useChatLogStore()
@@ -66,7 +66,7 @@ const handleKeydown = (event) => {
         class="bg-[#3C82F6] hover:bg-[#2864c3]"
       >
         <LoaderCircle v-if="isWaitingForResponse" class="animate-spin h-4 w-4" />
-        <span v-else>See vacation plans</span>
+        <span v-else class="px-2"><CornerDownRight class="h-4 w-4" /></span>
       </Button>
     </div>
 </template>
