@@ -31,11 +31,6 @@ const value = ref({
   start: today(getLocalTimeZone()),
   end: today(getLocalTimeZone()).add({ days: 7 })
 })
-
-// Initial store update
-onMounted(() => {
-  handleDateChange(value.value)
-})
 </script>
 
 <template>
