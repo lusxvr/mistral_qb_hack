@@ -12,10 +12,6 @@ const open = ref(false)
 </script>
 
 <template>
-    <Button @click="open = !open" :variant="open ? 'default' : 'outline'">
-        <span v-if="!open">Configure</span>
-        <span v-else>Close</span>
-    </Button>
     <div v-if="open"
         class="w-full flex flex-col space-y-4 mb-4 items-start transform transition-all duration-300 ease-out"
         :class="open ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0'">
@@ -25,4 +21,8 @@ const open = ref(false)
         <TravelMedium />
         <TravelTime />
     </div>
+    <Button @click="open = !open" :variant="open ? 'default' : 'outline'">
+        <span v-if="!open">Configure</span>
+        <span v-else>Close</span>
+    </Button>
 </template>
