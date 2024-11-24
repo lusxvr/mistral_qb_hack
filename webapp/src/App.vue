@@ -46,7 +46,7 @@ const currentRecommendationStore = useCurrentRecommendationStore();
           </div>
         </div>
       </div>
-      <div v-if="chatLogStore.hasRecommendation" class="w-full lg:w-[30%] h-full">
+      <div v-if="chatLogStore.hasRecommendation" class="w-full pb-16 lg:pb-0 lg:w-[30%] h-full">
         <RecommendationCard />
       </div>
     </div>
