@@ -25,7 +25,7 @@ DOMPurify.setConfig({
   ADD_ATTR: ['target', 'rel']
 })
 
-// Custom renderer für marked
+// custom renderer for marked
 const renderer = {
   link(href, title, text) {
     const link = marked.Renderer.prototype.link.call(this, href, title, text)
@@ -34,7 +34,7 @@ const renderer = {
 }
 
 const renderMarkdown = (text) => {
-  if (!text) return ''  // Schutz vor undefined
+  if (!text) return ''
   
   marked.setOptions({
     renderer: new marked.Renderer(),
@@ -71,7 +71,7 @@ const startTypingAnimation = (message) => {
   typeNextChar()
 }
 
-// Watch für neue Nachrichten
+// watch for new messages
 watch(() => store.chatLog.length, () => {
   const messages = store.chatLog
   if (messages.length > 0) {
@@ -80,10 +80,19 @@ watch(() => store.chatLog.length, () => {
       startTypingAnimation(lastMessage)
     }
   }
-  scrollToBottom()
+  nextTick(() => {
+    scrollToBottom()
+  })
 })
 
-// Initialisiere existierende Nachrichten
+// watch for typing updates
+watch(() => Array.from(typingMessages.value.values()), () => {
+  nextTick(() => {
+    scrollToBottom()
+  })
+}, { deep: true })
+
+// initialize existing messages
 onMounted(() => {
   store.chatLog.forEach(message => {
     if (!message.user) {
@@ -93,14 +102,14 @@ onMounted(() => {
   scrollToBottom()
 })
 
-// Hilfsfunktion zum sicheren Abrufen der Nachricht
+// helper function to safely get the typing message
 const getTypingMessage = (messageId) => {
   return typingMessages.value?.get(messageId) || ''
 }
 </script>
 
 <template>
-    <ScrollArea ref="scrollAreaRef" class="w-full h-[300px]" v-if="store.chatStarted">
+    <ScrollArea ref="scrollAreaRef" class="w-full" v-if="store.chatStarted">
         <div class="min-h-[150px] flex flex-col items-start text-left w-full rounded-lg px-4 py-2 space-y-2">
             <div v-for="message in [...store.chatLog].sort((a, b) => a.id - b.id)" 
                  :key="message.id" 

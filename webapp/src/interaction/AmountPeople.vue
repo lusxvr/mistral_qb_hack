@@ -11,19 +11,19 @@ import { useUserInfoStore } from '@/pinia/userInfo'
 const store = useUserInfoStore()
 
 const handleChange = (value) => {
-    store.setMaxTravelTime(value)
+    store.setPersonAmount(value)
 }
 </script>
 
 <template>
     <NumberField 
-        id="travel-time" 
-        :default-value="3" 
+        id="amount-people" 
+        :default-value="1" 
         :min="1" 
-        :max="14"
+        :max="6"
         @update:model-value="handleChange"
     >
-        <div class="text-xs font-bold">Max. Travel Time in Hours</div>
+        <div class="text-xs font-bold">Amount of People</div>
         <NumberFieldContent>
             <NumberFieldDecrement />
             <NumberFieldInput />
