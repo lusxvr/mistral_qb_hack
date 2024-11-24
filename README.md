@@ -53,6 +53,8 @@ The backend is then forwarding a prompt to the Mistral API. Using the Mistral La
 
 The frontend is built using the reactive frontend framework [Vue.js](https://vuejs.org/) and [Pinia](https://pinia.vuejs.org/) for state management.
 
+![Webapp next to pinia](./misc/pinia.png)
+
 ## Backend
 
 The logic of the backend is implemented as an ReAct AI Agent through LangGraph. The agent is implemented as a "state machine" which is in the form of a "StateGraph" that implements the Mistral API and gives it multiple toold to fullfill the user query.
