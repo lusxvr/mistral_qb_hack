@@ -18,7 +18,7 @@ def ad_auction(user_query):
     relevance_scores = relevance_scores.cpu().numpy()  # Convert to NumPy array
 
     # Multiply relevance scores by bid values
-    quality_adjusted_bids = relevance_scores * np.array([s["bid"] for s in sponsors])
+    quality_adjusted_bids = relevance_scores * np.array([s["bid"] for s in sd.sponsors])
 
     # Sort quality-adjusted bids in descending order
     sorted_indices = np.argsort(quality_adjusted_bids)[::-1]
@@ -28,7 +28,7 @@ def ad_auction(user_query):
     second_best_index = sorted_indices[1] if len(sorted_indices) > 1 else None
 
     # Identify the winning sponsor
-    winning_sponsor = sponsors[winning_index]
+    winning_sponsor = sd.sponsors[winning_index]
 
     # Calculate actual CPC (second-price logic)
     if second_best_index is not None:
@@ -38,4 +38,4 @@ def ad_auction(user_query):
     else:
         actual_cpc = quality_adjusted_bids[winning_index]  # Fallback if no second bidder
     
-    return winning_sponsor, np.round(actual_cpc, 2)
+    return winning_sponsor

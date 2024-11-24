@@ -1,11 +1,10 @@
-from typing import Union
-
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from . import agent
 from .system_prompt import prompt
+from .ad_auction import ad_auction
 from .unsplash_api import get_unsplash_image_url
 
 app = FastAPI()
@@ -36,6 +35,7 @@ async def chat(user_input: UserInput):
         response = agent.get_response(inputs, config)
         image_url = get_unsplash_image_url(str(response.city)+" skyline")
         response.imgAddress = image_url
+        response.ad_auction = ad_auction(str(response.description))
         return {"response": response}
     except Exception as e:
         return {"error": str(e)}
