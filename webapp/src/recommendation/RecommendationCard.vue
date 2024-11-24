@@ -70,8 +70,8 @@ const travelMediums = computed(() => {
                 </div>
             </div>
         </div>
-        <div class="w-full max-w-md mx-auto mb-8">
-            <div class="bg-white rounded-lg shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl">
+        <div class="w-full max-w-md mx-auto mb-8 h-full">
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl h-full">
                 <div class="flex h-full">
                     <div class="w-1/2 h-full relative">
                         <img 
