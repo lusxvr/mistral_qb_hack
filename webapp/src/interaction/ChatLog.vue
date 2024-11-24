@@ -1,12 +1,24 @@
 <script setup>
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { useChatLogStore } from '@/pinia/chatLog'
-import { ref, watch, nextTick } from 'vue'
+import { ref, watch, nextTick, onMounted } from 'vue'
 import { marked } from 'marked'
 import DOMPurify from 'dompurify'
 
 const store = useChatLogStore()
 const scrollAreaRef = ref(null)
+const typingMessages = ref(new Map())
+
+// scroll to bottom of the chat log after new message is added
+const scrollToBottom = () => {
+  if (scrollAreaRef.value) {
+    const scrollArea = scrollAreaRef.value.$el
+    const scrollContent = scrollArea.querySelector('[data-radix-scroll-area-viewport]')
+    if (scrollContent) {
+      scrollContent.scrollTop = scrollContent.scrollHeight
+    }
+  }
+}
 
 // DOMPurify configuration
 DOMPurify.setConfig({
@@ -22,6 +34,8 @@ const renderer = {
 }
 
 const renderMarkdown = (text) => {
+  if (!text) return ''  // Schutz vor undefined
+  
   marked.setOptions({
     renderer: new marked.Renderer(),
     breaks: true,
@@ -35,22 +49,54 @@ const renderMarkdown = (text) => {
   return sanitizedHtml
 }
 
-// scroll to bottom of the chat log after new message is added
-const scrollToBottom = () => {
-  if (scrollAreaRef.value) {
-    const scrollArea = scrollAreaRef.value.$el
-    const scrollContent = scrollArea.querySelector('[data-radix-scroll-area-viewport]')
-    if (scrollContent) {
-      scrollContent.scrollTop = scrollContent.scrollHeight
+// Typing Animation Logik
+const startTypingAnimation = (message) => {
+  if (!message || message.user || typingMessages.value.has(message.id)) return
+
+  const fullMessage = message.message
+  let currentIndex = 0
+  typingMessages.value.set(message.id, '')
+
+  const typeNextChar = () => {
+    if (currentIndex < fullMessage.length) {
+      typingMessages.value.set(message.id, fullMessage.slice(0, currentIndex + 1))
+      currentIndex++
+      setTimeout(() => {
+        typeNextChar()
+        scrollToBottom()
+      }, 1)
     }
   }
+
+  typeNextChar()
 }
 
+// Watch für neue Nachrichten
 watch(() => store.chatLog.length, () => {
-  nextTick(() => {
-    scrollToBottom()
-  })
+  const messages = store.chatLog
+  if (messages.length > 0) {
+    const lastMessage = messages[messages.length - 1]
+    if (!lastMessage.user) {
+      startTypingAnimation(lastMessage)
+    }
+  }
+  scrollToBottom()
 })
+
+// Initialisiere existierende Nachrichten
+onMounted(() => {
+  store.chatLog.forEach(message => {
+    if (!message.user) {
+      typingMessages.value.set(message.id, message.message)
+    }
+  })
+  scrollToBottom()
+})
+
+// Hilfsfunktion zum sicheren Abrufen der Nachricht
+const getTypingMessage = (messageId) => {
+  return typingMessages.value?.get(messageId) || ''
+}
 </script>
 
 <template>
@@ -68,7 +114,9 @@ watch(() => store.chatLog.length, () => {
                     <span 
                         class="break-words whitespace-normal prose prose-sm"
                         :class="message.user ? 'prose-invert' : ''"
-                        v-html="renderMarkdown(message.message)"
+                        v-html="message.user ? 
+                               renderMarkdown(message.message) : 
+                               renderMarkdown(getTypingMessage(message.id))"
                     ></span>
                 </div>
             </div>
