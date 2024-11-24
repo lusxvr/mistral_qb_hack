@@ -53,7 +53,7 @@ const handleKeydown = (event) => {
 <template>
     <Textarea 
       v-model="inputValue" 
-      placeholder="What else should I consider?" 
+      placeholder="Let me help you plan your trip! What do you want to do?" 
       class="min-h-16"
       @keydown="handleKeydown"
       :disabled="isWaitingForResponse"
