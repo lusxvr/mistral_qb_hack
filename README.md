@@ -35,10 +35,8 @@ The backend needs some API keys to be set in the environment variables to work. 
     - see https://www.tavily.com/
 - MISTRAL_API_KEY="..."
     - see https://mistral.ai/
-- AMADEUS_CLIENT_ID="..."
-    - see https://developers.amadeus.com/
-- AMADEUS_CLIENT_SECRET="..."
-    - see https://developers.amadeus.com/
+- UNSPLASH_ACCESS_KEY="..."
+    - see https://unsplash.com/developers
 - OPENWEATHERMAP_API_KEY="..."
     - see https://openweathermap.org/
 
@@ -51,3 +49,15 @@ The following diagram shows the architecture of the project.
 ## Webapp
 
 ## Backend
+
+The logic of the backend is implemented as an ReAct AI Agent through LangGraph. The agent is implemented as a "state machine" which is in the form of a "StateGraph" that implements the Mistral API and gives it multiple toold to fullfill the user query.
+
+Additional Tools for the agent:
+- web search
+- weather forecast
+- datetime
+- image api
+
+With these tools the agent can autonomously fullfill the user query, regardless of how complex or specific it is. The ability to query the web to find the best way to fullfill the given query coupled with the graphs state memory enable the agent to fullfill complex, specific and personalised user queries.
+
+![State Graph](./misc/agent.png)
