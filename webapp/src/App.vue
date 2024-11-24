@@ -12,14 +12,14 @@ const chatLogStore = useChatLogStore();
 </script>
 
 <template>
-  <div class="mx-4 md:mx-8 lg:mx-16 xl:mx-32 2xl:mx-64 max-w-7xl pb-16 min-h-screen">
+  <div class="mx-4 md:mx-8 lg:mx-16 xl:mx-32 2xl:mx-64 max-w-7xl pb-16 h-screen">
     <header class="w-full pt-6 h-16 border-slate-200 flex items-center px-4 text-2xl font-black">
       <div class="flex flex-row items-center space-x-2">
         <div>Mistravel.ai</div>
         <PlaneTakeoff :size="32" color="#3C82F6" :stroke-width="2.5" />
       </div>
     </header>
-    <div class="mt-8 mx-4 md:mx-16 lg:mx-48 2xl:mx-64 text-center">
+    <div class="flex flex-col py-12 mx-4 md:mx-16 lg:mx-48 2xl:mx-64 text-center h-full">
       <div v-if="!chatLogStore.chatStarted" class="mb-8">
         <div class="text-4xl font-bold">
           Plan and Book <br>
@@ -30,10 +30,13 @@ const chatLogStore = useChatLogStore();
           </span>
         </div>
       </div>
-      <div class="flex flex-col space-y-2 items-start justify-center h-full">
+      <div class="flex flex-col space-y-2 items-start h-full"
+      :class="chatLogStore.chatStarted ? 'justify-between' : ''">
         <ChatLog />
-        <Filter />
-        <TextInput />
+        <div class="w-full space-y-2 items-start text-left">
+          <Filter />
+          <TextInput />
+        </div>
       </div>
     </div>
   </div>
