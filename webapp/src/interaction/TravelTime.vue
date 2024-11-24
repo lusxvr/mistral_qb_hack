@@ -1,5 +1,4 @@
 <script setup>
-import { Label } from '@/components/ui/label'
 import {
     NumberField,
     NumberFieldContent,
@@ -19,7 +18,7 @@ const handleChange = (value) => {
 <template>
     <NumberField 
         id="travel-time" 
-        :default-value="store.filter.maxTravelTime" 
+        :default-value="3" 
         :min="1" 
         :max="14"
         @update:model-value="handleChange"
