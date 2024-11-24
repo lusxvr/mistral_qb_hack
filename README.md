@@ -46,7 +46,12 @@ The following diagram shows the architecture of the project.
 
 ![Project Architecture](./misc/architecture.png)
 
+The project consists of a frontend that is rendered in the browser and a backend that is handling the HTTP post requests coming from the webapp.
+The backend is then forwarding a prompt to the Mistral API. Using the Mistral Large Model, we get back a structured response (JSON) that is then parsed in the frontend and displayed to the user.
+
 ## Webapp
+
+The frontend is built using the reactive frontend framework [Vue.js](https://vuejs.org/) and [Pinia](https://pinia.vuejs.org/) for state management.
 
 ## Backend
 
