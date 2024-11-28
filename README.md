@@ -2,6 +2,10 @@
 
 This project was built during the 2-day Mistral-Quantum Black Hackathon at École Polytechnique in Paris, by [Diane Mansard](https://www.linkedin.com/in/diane-mansard-507024211/), [Felix Müller](https://www.linkedin.com/in/felix-muller-k/), [Luis Wiedmann](https://www.linkedin.com/in/luis-wiedmann/) and [Jan Dorn](https://www.linkedin.com/in/jandorn/).
 
+We managed to win **1st Place** overall, huge thanks to the organizing team, it was a lot of fun.
+
+You can see the pitch deck in the repo and the demo [here](https://youtu.be/3uiZySTIB7k?si=NqKJEi8X5p3LnQub)
+
 ## Overview
 
 The goal of the hackathon was to build a retail assistant using LLMs provided by Mistral. It was not specified what kind of product to sell, so early on we decided to build a travel planner that helps users find the perfect trip and then helps to pay for tickets and accomodations.
